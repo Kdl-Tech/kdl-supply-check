@@ -120,3 +120,7 @@ the 4 August 2026 attack. All six machines were clean — but checking took hour
 nobody should have to do that work by hand.
 
 IT support, software development, security — Guadeloupe and remote.
+
+---
+
+**Publisher** — KDL TECH, trading name of Karim Laurent De Lucia, sole trader (*entrepreneur individuel*, France) · SIRET 423 471 481 00022 · NAF/APE 95.11Z · LD Caraque, Rue Narcisse Louis, 97139 Les Abymes, Guadeloupe, France · [contact@kdl-tech.fr](mailto:contact@kdl-tech.fr) · [kdl-tech.fr](https://kdl-tech.fr)

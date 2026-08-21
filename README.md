@@ -122,3 +122,7 @@ l'attaque du 4 août 2026. Les six machines étaient saines — mais vérifier a
 heures, et personne ne devrait avoir à refaire ce travail à la main.
 
 Maintenance informatique, développement, sécurité — Guadeloupe et à distance.
+
+---
+
+**Éditeur** — KDL TECH, nom commercial de Karim Laurent De Lucia, entrepreneur individuel · SIRET 423 471 481 00022 · APE 95.11Z · LD Caraque, Rue Narcisse Louis, 97139 Les Abymes, Guadeloupe · [contact@kdl-tech.fr](mailto:contact@kdl-tech.fr) · [kdl-tech.fr](https://kdl-tech.fr)
