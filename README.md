@@ -125,4 +125,4 @@ Maintenance informatique, développement, sécurité — Guadeloupe et à distan
 
 ---
 
-**Éditeur** — KDL TECH, nom commercial de Karim Laurent De Lucia, entrepreneur individuel · SIRET 423 471 481 00022 · APE 95.11Z · LD Caraque, Rue Narcisse Louis, 97139 Les Abymes, Guadeloupe · [contact@kdl-tech.fr](mailto:contact@kdl-tech.fr) · [kdl-tech.fr](https://kdl-tech.fr)
+**Éditeur** — KDL TECH, entrepreneur individuel · SIRET 423 471 481 00022 · APE 95.11Z · Les Abymes, Guadeloupe · [contact@kdl-tech.fr](mailto:contact@kdl-tech.fr) · [kdl-tech.fr](https://kdl-tech.fr)
