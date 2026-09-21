@@ -116,7 +116,8 @@ faire, dans l'ordre, et seulement après avoir neutralisé le veilleur.
 
 ## Compatibilité
 
-Bash 4+ — Linux, macOS, WSL. Rien à installer.
+**Linux uniquement** (Bash 4+, testé sur Linux Mint 22). Rien à installer.
+Pas de version Windows. macOS : non pris en charge (non testé).
 
 ## Contribuer
 

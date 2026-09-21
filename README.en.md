@@ -114,7 +114,8 @@ and only once the switch is neutralised.
 
 ## Requirements
 
-Bash 4+ — Linux, macOS, WSL. Nothing to install.
+**Linux only** (Bash 4+, tested on Linux Mint 22). Nothing to install.
+No Windows version. macOS: not supported (untested).
 
 ## Contributing
 
