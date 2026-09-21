@@ -69,6 +69,7 @@ Sur une machine propre, le script le dit sans détour :
 ./kdl-supply-check.sh              # analyse seule — ne modifie rien
 ./kdl-supply-check.sh --nettoyer   # neutralise le veilleur, conserve les preuves
 ./kdl-supply-check.sh --silencieux # sortie courte, pour la supervision
+./kdl-supply-check.sh --machine    # sortie stable pour un programme (lecture seule)
 ```
 
 Codes de sortie : `0` machine saine, `2` indices trouvés. Utilisable en cron ou en
@@ -90,6 +91,19 @@ done
 
 `--nettoyer` ne supprime pas le veilleur : il l'arrête, le désactive, puis **renomme son
 dossier en `.preuve-<horodatage>`**. Vous gardez de quoi analyser l'incident.
+
+## Sortie pour un programme (`--machine`)
+
+Format stable, une information par ligne, champs séparés par une tabulation, sans couleur :
+
+```
+KDLSC	1	1.1                          # en-tête : format 1, version du script
+INDICE	veilleur	<description>        # une ligne par indice : veilleur | charge | paquet | crochet | indice
+RESULTAT	sain|compromis	<nombre>
+```
+
+Code de sortie : 0 sain, 2 compromis, 64 si combiné avec `--nettoyer` (le mode machine
+ne modifie jamais rien). Utilisé par KDL Toolbox. Tests : `bash test/test-machine.sh`.
 
 ## Ce qu'il ne fait pas
 

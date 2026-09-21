@@ -68,6 +68,7 @@ On a clean machine, the script says so plainly:
 ./kdl-supply-check.sh              # scan only — changes nothing
 ./kdl-supply-check.sh --nettoyer   # neutralise the switch, keep the evidence
 ./kdl-supply-check.sh --silencieux # short output, for monitoring
+./kdl-supply-check.sh --machine    # stable output for programs (read-only)
 ```
 
 Exit codes: `0` clean, `2` indicators found. Suitable for cron and monitoring.
@@ -88,6 +89,19 @@ done
 
 `--nettoyer` does not delete the switch: it stops it, disables it, then **renames its
 directory to `.preuve-<timestamp>`**. You keep everything you need to investigate.
+
+## Output for programs (`--machine`)
+
+Stable format, one item per line, tab-separated fields, no colours:
+
+```
+KDLSC	1	1.1                          # header: format 1, script version
+INDICE	veilleur	<description>        # one line per finding: veilleur | charge | paquet | crochet | indice
+RESULTAT	sain|compromis	<count>
+```
+
+Exit code: 0 clean, 2 compromised, 64 when combined with `--nettoyer` (machine mode
+never changes anything). Used by KDL Toolbox. Tests: `bash test/test-machine.sh`.
 
 ## What it does not do
 

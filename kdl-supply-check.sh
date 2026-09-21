@@ -20,21 +20,30 @@
 #    ./kdl-supply-check.sh              # analyse seule, ne touche à rien
 #    ./kdl-supply-check.sh --nettoyer   # propose de neutraliser ce qu'il trouve
 #    ./kdl-supply-check.sh --silencieux # sortie courte, pour un script
+#    ./kdl-supply-check.sh --machine    # sortie stable pour un programme
+#                                       # (KDL Toolbox), lecture seule
 # ═══════════════════════════════════════════════════════════════════════════
 
 set -uo pipefail
 
-VERSION="1.0"
+VERSION="1.1"
 NETTOYER=0
 SILENCIEUX=0
+MACHINE=0
 for arg in "$@"; do
   case "$arg" in
     --nettoyer)   NETTOYER=1 ;;
     --silencieux) SILENCIEUX=1 ;;
+    --machine)    MACHINE=1; SILENCIEUX=1 ;;
     --version)    echo "kdl-supply-check $VERSION"; exit 0 ;;
     --aide|-h)    sed -n '2,30p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
   esac
 done
+# Mode machine = analyse seule : il ne neutralise jamais rien.
+if [ "$MACHINE" -eq 1 ] && [ "$NETTOYER" -eq 1 ]; then
+  echo "ERREUR	--machine et --nettoyer sont incompatibles (le mode machine ne modifie rien)" >&2
+  exit 64
+fi
 
 # ─── Couleurs, seulement si la sortie est un terminal ───
 if [ -t 1 ] && [ "$SILENCIEUX" -eq 0 ]; then
@@ -49,7 +58,10 @@ RAPPORT="${TMPDIR:-/tmp}/kdl-supply-check-$(date +%Y%m%d-%H%M%S).txt"
 
 titre()   { [ "$SILENCIEUX" -eq 1 ] || printf '\n%s%s%s\n' "$G$B" "$1" "$Z"; }
 ok()      { [ "$SILENCIEUX" -eq 1 ] || printf '  %s✓%s %s\n' "$V" "$Z" "$1"; }
-alerte()  { printf '  %s⚠ %s%s\n' "$R$G" "$1" "$Z"; ALERTES=$((ALERTES+1)); echo "ALERTE: $1" >> "$RAPPORT"; }
+alerte()  {
+  if [ "$MACHINE" -eq 1 ]; then printf 'INDICE\t%s\t%s\n' "$ETAPE" "$(printf '%s' "$1" | tr '\t\r\n' '   ')"
+  else printf '  %s⚠ %s%s\n' "$R$G" "$1" "$Z"; fi
+  ALERTES=$((ALERTES+1)); echo "ALERTE: $1" >> "$RAPPORT"; }
 note()    { [ "$SILENCIEUX" -eq 1 ] || printf '  %s·%s %s\n' "$J" "$Z" "$1"; }
 
 # ═══ Base de signatures ═══════════════════════════════════════════════════
@@ -75,12 +87,15 @@ ecto:5.0.1:5.0.0
 
 RACINES="${KDL_SCAN_PATHS:-$HOME}"
 
+ETAPE=debut
+[ "$MACHINE" -eq 1 ] && printf 'KDLSC\t1\t%s\n' "$VERSION"
 [ "$SILENCIEUX" -eq 1 ] || cat <<BANNIERE
 ${G}${B}KDL Supply Check${Z} ${VERSION} — recherche de compromission npm
 machine : $(hostname) · $(date '+%d/%m/%Y %H:%M')
 BANNIERE
 
 # ═══ 1. LE VEILLEUR — en premier, toujours ════════════════════════════════
+ETAPE=veilleur
 titre "1. Veilleur de destruction (à neutraliser avant toute chose)"
 
 VEILLEUR_TROUVE=0
@@ -103,7 +118,7 @@ if command -v systemctl >/dev/null 2>&1; then
   fi
 fi
 
-if [ "$VEILLEUR_TROUVE" -eq 1 ]; then
+if [ "$VEILLEUR_TROUVE" -eq 1 ] && [ "$MACHINE" -eq 0 ]; then
   printf '\n  %s%sNE RÉVOQUEZ AUCUN MOT DE PASSE NI JETON POUR L'"'"'INSTANT.%s\n' "$R" "$G" "$Z"
   printf '  Ce veilleur déclenche une destruction de données quand il détecte\n'
   printf '  qu'"'"'un jeton volé a été révoqué. Neutralisez-le d'"'"'abord.\n'
@@ -125,6 +140,7 @@ else
 fi
 
 # ═══ 2. LA CHARGE MALVEILLANTE ════════════════════════════════════════════
+ETAPE=charge
 titre "2. Charge malveillante sur le disque"
 
 SUSPECTS=0
@@ -150,6 +166,7 @@ if [ "$SUSPECTS" -eq 0 ]; then
 fi
 
 # ═══ 3. LES PAQUETS PIÉGÉS ════════════════════════════════════════════════
+ETAPE=paquet
 titre "3. Versions de paquets compromises"
 
 PAQUETS_TROUVES=0
@@ -169,6 +186,7 @@ done
 [ "$PAQUETS_TROUVES" -eq 0 ] && ok "aucune version piégée installée"
 
 # ═══ 4. PERSISTANCE DANS LES OUTILS ═══════════════════════════════════════
+ETAPE=crochet
 titre "4. Crochets dans les éditeurs et assistants"
 
 CROCHETS=0
@@ -185,6 +203,7 @@ done
 [ "$CROCHETS" -eq 0 ] && ok "aucun crochet de persistance"
 
 # ═══ 5. INDICES SECONDAIRES ═══════════════════════════════════════════════
+ETAPE=indice
 titre "5. Indices secondaires"
 
 ls "${TMPDIR:-/tmp}"/bun-dl-* >/dev/null 2>&1 && alerte "restes de téléchargement Bun dans le dossier temporaire" || ok "pas de reste de téléchargement suspect"
@@ -205,6 +224,10 @@ fi
 
 # ═══ VERDICT ══════════════════════════════════════════════════════════════
 TOTAL=$((ALERTES))
+if [ "$MACHINE" -eq 1 ]; then
+  if [ "$TOTAL" -eq 0 ]; then printf 'RESULTAT\tsain\t0\n'; exit 0; fi
+  printf 'RESULTAT\tcompromis\t%d\n' "$TOTAL"; exit 2
+fi
 printf '\n'
 if [ "$TOTAL" -eq 0 ]; then
   printf '%s%s  MACHINE SAINE%s — aucun indice de compromission.\n' "$V" "$G" "$Z"
