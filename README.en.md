@@ -2,6 +2,8 @@
 
 # KDL Supply Check
 
+[![MIT License](https://img.shields.io/badge/license-MIT-0A7475)](LICENSE) ![Bash](https://img.shields.io/badge/bash-single_file-123C63) ![No dependencies](https://img.shields.io/badge/dependencies-none-0A7475) ![No network calls](https://img.shields.io/badge/network-no_calls-123C63) [![GitHub stars](https://img.shields.io/github/stars/Kdl-Tech/kdl-supply-check?style=social)](https://github.com/Kdl-Tech/kdl-supply-check/stargazers)
+
 Detects npm supply chain compromise — the **Shai-Hulud / ChainDrop** family.
 
 One file, no dependencies, no network calls. It looks at your machine and tells you
@@ -16,6 +18,9 @@ bash kdl-supply-check.sh
 ![Script output on a compromised machine: the dead man's switch is caught first, then the dropper, the booby-trapped keyv package and the persistence hook, followed by the remediation steps in order](docs/machine-infectee.svg)
 
 <sub>Real output, captured on a deliberately infected test machine. The script speaks French.</sub>
+
+> ⭐ **Found it useful, or want to keep it at hand?** A GitHub star helps it reach the developers who need it *before* they revoke their tokens.
+
 
 ---
 

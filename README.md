@@ -2,6 +2,8 @@
 
 # KDL Supply Check
 
+[![Licence MIT](https://img.shields.io/badge/licence-MIT-0A7475)](LICENSE) ![Bash](https://img.shields.io/badge/bash-un_seul_fichier-123C63) ![Aucune dépendance](https://img.shields.io/badge/dépendances-aucune-0A7475) ![Aucun appel réseau](https://img.shields.io/badge/réseau-aucun_appel-123C63) [![Étoiles GitHub](https://img.shields.io/github/stars/Kdl-Tech/kdl-supply-check?style=social)](https://github.com/Kdl-Tech/kdl-supply-check/stargazers)
+
 Détecteur de compromission npm — famille **Shai-Hulud / ChainDrop**.
 
 Un seul fichier, aucune dépendance, aucun appel réseau. Il regarde votre machine et vous
@@ -16,6 +18,9 @@ bash kdl-supply-check.sh
 ![Sortie du script sur une machine compromise : le veilleur de destruction est détecté en premier, suivi du dropper, du paquet keyv piégé et du crochet de persistance, puis la marche à suivre dans l'ordre](docs/machine-infectee.svg)
 
 <sub>Sortie réelle du script sur une machine de test volontairement infectée.</sub>
+
+> ⭐ **Cet outil vous a servi, ou vous voulez le garder sous la main ?** Une étoile sur GitHub l'aide à atteindre les développeurs qui en ont besoin avant de révoquer leurs jetons.
+
 
 ---
 
